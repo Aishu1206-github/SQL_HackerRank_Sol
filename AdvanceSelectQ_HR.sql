@@ -31,6 +31,7 @@ SELECT
 FROM TRIANGLES;
 
 
+
 					 -- OCCUPATIONS TABLE
 -- Generate the following two result sets:
 -- Note: There will be at least two entries in the table for each type of occupation.
@@ -69,7 +70,7 @@ ORDER BY COUNT(*), Occupation;
 
 
 
--- Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. 
+-- 3] Pivot the Occupation column in OCCUPATIONS so that each Name is sorted alphabetically and displayed underneath its corresponding Occupation. 
 -- The output should consist of four columns (Doctor, Professor, Singer, and Actor) in that specific order, with their respective names listed alphabetically under each column.
 -- Note: Print NULL when there are no more names corresponding to an occupation.
 -- Input Format
@@ -88,7 +89,8 @@ FROM (
     )AS Ranked
     GROUP BY rn;
     
-    
+
+
     
                                        -- BST TABLE
 -- You are given a table, BST, containing two columns: N and P, where N represents the value of a node in Binary Tree, and P is the parent of N.
@@ -121,10 +123,10 @@ FROM BST
 ORDER BY N;
 
 -- P IS NULL → Root:
--- If a node has no parent, it's the root node.
+--          If a node has no parent, it's the root node.
 -- N NOT IN (SELECT P FROM BST WHERE P IS NOT NULL) → Leaf:
--- A node is a leaf if it never appears as a parent (P) in the table.
+--          A node is a leaf if it never appears as a parent (P) in the table.
 -- ELSE → Inner:
--- If a node is not a root and appears as a parent, it is an inner node.
+--         If a node is not a root and appears as a parent, it is an inner node.
 -- ORDER BY N:
--- Sorts the result by node value.
+--         Sorts the result by node value.
