@@ -130,3 +130,78 @@ ORDER BY N;
 --         If a node is not a root and appears as a parent, it is an inner node.
 -- ORDER BY N:
 --         Sorts the result by node value.
+
+
+
+   -- NEW COMPANY
+-- Each of the companies follows this hiera
+--                       Founder
+--                         |
+-- 	              Lead Manager
+--                         |
+-- 		      Senoir Manager
+--                         |
+-- 			Manager
+--                         |
+-- 			Employee
+CREATE TABLE Company (                               -- Company
+	company_code VARCHAR(5),
+    founder VARCHAR(10)
+);
+INSERT INTO Company VALUES ('C1','Monika'),('C2','Samantha');
+SELECT * FROM Company;
+
+CREATE TABLE Lead_Manager (                          -- Lead_Manager
+	  lead_Manager_code VARCHAR(5),
+      company_code VARCHAR(5)
+);
+INSERT INTO Lead_Manager VALUES ('LM1','C1'),('LM2','C2');
+SELECT * FROM Lead_Manager;
+
+CREATE TABLE Senior_Manager (                        -- Senior_Manager
+		senior_manager_code VARCHAR(5),
+        lead_manager_code VARCHAR(5),
+        company_code VARCHAR(5)
+);
+INSERT INTO Senior_Manager VALUES('SM1','LM1','C1'),('SM2','LM1','C1'),
+('SM3','LM2','C2');
+SELECT * FROM Senior_Manager;
+
+CREATE TABLE Manager (                               -- Manager
+	manager_code VARCHAR(5),
+    senior_manager_code VARCHAR(5),
+    lead_manager_code VARCHAR(5),
+    company_code VARCHAR(5)
+);
+INSERT INTO Manager VALUES ('M1','SM1','LM1','C1'),('M2','SM3','LM2','C2'),
+('M3','SM3','LM2','C2');
+SELECT * FROM Manager;
+
+CREATE TABLE Employee (                            -- Employee
+	employee_code VARCHAR(5),
+    manager_code VARCHAR(5),
+    senior_manager_code VARCHAR(5),
+    lead_manager_code VARCHAR(5),
+    company_code VARCHAR(5)
+);
+INSERT INTO Employee VALUES ('E1','M1','SM1','LM1','C1'),
+('E2','M1','SM1','LM1','C1'),
+('E3','M2','SM3','LM2','C2'),
+('E4','M3','SM3','LM2','C2');
+SELECT * FROM Employee;
+
+-- 1]  write a query to print the company_code, founder name, total number of lead managers, total number of senior managers, total number of managers, and total number of employees. 
+-- Order your output by ascending company_code.
+
+SELECT c.company_code, c.founder, 
+COUNT(DISTINCT l.lead_Manager_code),
+COUNT(DISTINCT s.senior_manager_code),
+COUNT(DISTINCT m.manager_code),
+COUNT(DISTINCT e.employee_code)
+FROM Company c, Lead_Manager l, Senior_Manager s, Manager m, Employee e
+WHERE c.company_code = l.company_code
+AND l.lead_Manager_code = s.lead_manager_code 
+AND s.senior_manager_code = m.senior_manager_code
+AND m.manager_code = e.manager_code 
+GROUP BY c.company_code, c.founder  
+ORDER BY c.company_code;
